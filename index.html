@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NakawiteURL - Acorta tus enlaces al instante</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos Generales */
+        :root {
+            --primary-color: #2c3e50; /* Azul oscuro */
+            --accent-color: #3498db;  /* Azul brillante */
+            --background-color: #f4f7f9; /* Gris claro */
+            --text-color: #333;
+            --light-text-color: #fff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Encabezado */
+        header {
+            background-color: var(--light-text-color);
+            padding: 1rem 0;
+            box-shadow: var(--box-shadow);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            margin-left: 20px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Sección principal (Hero) */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+        
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--light-text-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            flex-wrap: wrap;
+        }
+        
+        .input-container input {
+            flex-grow: 1;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .input-container input#longUrl {
+            border-bottom: 1px solid #ccc; /* Separador para móviles */
+        }
+        
+        .input-container button {
+            background-color: var(--accent-color);
+            color: var(--light-text-color);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .input-container button:hover {
+            background-color: #2980b9;
+        }
+        
+        .custom-url-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: var(--light-text-color);
+        }
+
+        .custom-url-container .prefix {
+            padding: 15px 10px 15px 20px;
+            color: #777;
+            font-size: 1rem;
+        }
+
+        .custom-url-container input {
+            flex-grow: 1;
+            padding: 15px 20px 15px 0;
+            border: none;
+            outline: none;
+        }
+        
+        /* Contenedor de Resultado */
+        .result-container {
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: var(--light-text-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: left;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .result-container h3 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .short-link-box {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .short-link-box input {
+            flex-grow: 1;
+            border: none;
+            padding: 12px 15px;
+            font-size: 1rem;
+            background-color: #ecf0f1;
+            outline: none;
+        }
+        
+        .short-link-box button {
+            background-color: var(--accent-color);
+            color: var(--light-text-color);
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .short-link-box button:hover {
+            background-color: #2980b9;
+        }
+        
+        .additional-options {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .additional-options button {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        .additional-options button:hover {
+            background-color: #1a252f;
+        }
+        
+        /* Pie de página */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+        
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+        
+            nav {
+                margin-top: 15px;
+            }
+        
+            nav a {
+                margin: 0 10px;
+            }
+        
+            .hero h2 {
+                font-size: 2rem;
+            }
+        
+            .input-container {
+                flex-direction: column;
+                padding-bottom: 0;
+            }
+        
+            .input-container input#longUrl {
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+            }
+        
+            .custom-url-container {
+                flex-direction: row; /* Mantener en una fila */
+                border-top: 1px solid #ccc;
+            }
+        
+            .custom-url-container .prefix,
+            .custom-url-container input {
+                padding: 15px;
+            }
+        
+            .input-container button {
+                width: 100%;
+                border-radius: 0 0 var(--border-radius) var(--border-radius);
+            }
+            
+            .short-link-box {
+                flex-direction: column;
+            }
+        
+            .short-link-box input {
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+            }
+            
+            .short-link-box button {
+                border-radius: 0 0 var(--border-radius) var(--border-radius);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">WixarikaURL</h1>
+            <nav>
+                <a href="#">Inicio</a>
+                <a href="#">Acerca de</a>
+                <a href="#">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="hero">
+        <div class="container">
+            <h2>Acorta tus enlaces, al instante.</h2>
+            <p>Comparte URLs más limpias y fáciles de recordar con WixarikaURL.</p>
+            <div class="input-container">
+                <input type="url" id="longUrl" placeholder="Pega aquí tu URL larga..." required>
+                <div class="custom-url-container">
+                    <span class="prefix">wixarikaURL.com/</span>
+                    <input type="text" id="customUrl" placeholder="Personaliza tu enlace (opcional)">
+                </div>
+                <button id="shortenBtn">Acortar</button>
+            </div>
+
+            <div id="result-container" class="result-container" style="display:none;">
+                <h3>¡Aquí está tu enlace corto!</h3>
+                <div class="short-link-box">
+                    <input type="text" id="shortUrl" readonly>
+                    <button id="copyBtn">Copiar</button>
+                </div>
+                <div class="additional-options">
+                    <button id="qrBtn">Generar QR</button>
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 NakawiteURL. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const longUrlInput = document.getElementById('longUrl');
+            const customUrlInput = document.getElementById('customUrl');
+            const shortenBtn = document.getElementById('shortenBtn');
+            const resultContainer = document.getElementById('result-container');
+            const shortUrlInput = document.getElementById('shortUrl');
+            const copyBtn = document.getElementById('copyBtn');
+        
+            shortenBtn.addEventListener('click', async () => {
+                const longUrl = longUrlInput.value;
+                const customSlug = customUrlInput.value.trim();
+        
+                if (!longUrl) {
+                    alert('Por favor, ingresa una URL válida.');
+                    return;
+                }
+        
+                try {
+                    const response = await fetch('/api/shorten', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ longUrl, customSlug })
+                    });
+        
+                    const data = await response.json();
+        
+                    if (response.ok) {
+                        shortUrlInput.value = data.shortUrl;
+                        resultContainer.style.display = 'block';
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                } catch (error) {
+                    alert('Ocurrió un error al conectar con el servidor.');
+                    console.error('Error:', error);
+                }
+            });
+        
+            copyBtn.addEventListener('click', () => {
+                shortUrlInput.select();
+                shortUrlInput.setSelectionRange(0, 99999); // Para móviles
+                document.execCommand('copy');
+                
+                // Cambio de texto para feedback visual
+                const originalText = copyBtn.innerText;
+                copyBtn.innerText = '¡Copiado!';
+                setTimeout(() => {
+                    copyBtn.innerText = originalText;
+                }, 1500);
+            });
+        
+            // Funcionalidad para el botón de Generar QR (opcional)
+            const qrBtn = document.getElementById('qrBtn');
+            qrBtn.addEventListener('click', () => {
+                const shortUrl = shortUrlInput.value;
+                if (shortUrl) {
+                    window.open(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(shortUrl)}`, '_blank');
+                } else {
+                    alert('Primero acorta una URL para generar el QR.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
