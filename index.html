@@ -107,7 +107,7 @@
             font-size: 1rem;
             outline: none;
         }
-
+        
         .input-container input#longUrl {
             border-bottom: 1px solid #ccc; /* Separador para móviles */
         }
@@ -259,21 +259,21 @@
                 flex-direction: column;
                 padding-bottom: 0;
             }
-
+        
             .input-container input#longUrl {
                 border-radius: var(--border-radius) var(--border-radius) 0 0;
             }
-
+        
             .custom-url-container {
                 flex-direction: row; /* Mantener en una fila */
                 border-top: 1px solid #ccc;
             }
-
+        
             .custom-url-container .prefix,
             .custom-url-container input {
                 padding: 15px;
             }
-
+        
             .input-container button {
                 width: 100%;
                 border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -346,28 +346,36 @@
             const resultContainer = document.getElementById('result-container');
             const shortUrlInput = document.getElementById('shortUrl');
             const copyBtn = document.getElementById('copyBtn');
-            
-            // Función para simular el acortamiento (en un proyecto real, usarías una API)
-            function shortenUrl(url, customSlug) {
-                // En un proyecto real, verificarías si el customSlug ya existe en una base de datos.
-                if (customSlug) {
-                    return `https://nakawite.com/${customSlug}`;
-                } else {
-                    const hash = Math.random().toString(36).substring(2, 8);
-                    return `https://nakawite.com/${hash}`;
-                }
-            }
         
-            shortenBtn.addEventListener('click', () => {
+            shortenBtn.addEventListener('click', async () => {
                 const longUrl = longUrlInput.value;
-                const customSlug = customUrlInput.value.trim(); // Obtener el valor sin espacios
+                const customSlug = customUrlInput.value.trim();
         
-                if (longUrl) {
-                    const shortUrl = shortenUrl(longUrl, customSlug);
-                    shortUrlInput.value = shortUrl;
-                    resultContainer.style.display = 'block';
-                } else {
+                if (!longUrl) {
                     alert('Por favor, ingresa una URL válida.');
+                    return;
+                }
+        
+                try {
+                    const response = await fetch('/api/shorten', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ longUrl, customSlug })
+                    });
+        
+                    const data = await response.json();
+        
+                    if (response.ok) {
+                        shortUrlInput.value = data.shortUrl;
+                        resultContainer.style.display = 'block';
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                } catch (error) {
+                    alert('Ocurrió un error al conectar con el servidor.');
+                    console.error('Error:', error);
                 }
             });
         
