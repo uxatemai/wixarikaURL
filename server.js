@@ -9,12 +9,14 @@ const PORT = process.env.PORT || 3000;
 // Base de datos "simulada" en la memoria del servidor
 const urlDatabase = {};
 
-// Middleware para servir archivos estáticos (tu HTML, CSS, JS del frontend)
-// Asegúrate de tener una carpeta llamada 'public' en la raíz de tu proyecto
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Middleware para procesar los datos enviados en formato JSON
 app.use(express.json());
+
+// ******* CAMBIO AQUÍ *******
+// Middleware para servir archivos estáticos desde la carpeta 'public'
+// Si el usuario visita la raíz ('/'), Express servirá el archivo index.html por defecto
+app.use(express.static(path.join(__dirname, 'public')));
+// **************************
 
 // API para acortar URLs
 // Este endpoint recibe los datos del frontend (la URL larga y la personalizada)
